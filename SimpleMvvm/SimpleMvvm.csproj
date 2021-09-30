@@ -7,6 +7,11 @@
     <Company>Mzying2001</Company>
     <Authors>Mzying2001</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Mzying2001.SimpleMvvm</PackageId>
+    <Description>A simple MVVM class library for WPF apps.</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright (c) 2021 Mzying2001</Copyright>
+    <PackageProjectUrl>https://github.com/Mzying2001/SimpleMvvm</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
