@@ -64,6 +64,26 @@
             Wraps the delegate as a command.
             </summary>
         </member>
+        <member name="T:SimpleMvvm.Locator.ViewModelLocatorBase">
+            <summary>
+            Base class for ViewModelLocator
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Register``1">
+            <summary>
+            Register a global ViewModel instance.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Unregister``1">
+            <summary>
+            Unregister the ViewModel.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.GetInstance``1">
+            <summary>
+            Get the instance of ViewModel.
+            </summary>
+        </member>
         <member name="T:SimpleMvvm.NotificationObject">
             <summary>
             Notifies clients that a property value has changed.
