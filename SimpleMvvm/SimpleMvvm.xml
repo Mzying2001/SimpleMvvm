@@ -39,22 +39,22 @@
             Wraps the delegate as a command.
             </summary>
         </member>
-        <member name="T:SimpleMvvm.Command.DelegeteCommand">
+        <member name="T:SimpleMvvm.Command.DelegateCommand">
             <summary>
             Defines delegate command without parameter.
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Command.DelegeteCommand.#ctor">
+        <member name="M:SimpleMvvm.Command.DelegateCommand.#ctor">
             <summary>
             Instantiate a DelegateCommand.
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Command.DelegeteCommand.#ctor(System.Action)">
+        <member name="M:SimpleMvvm.Command.DelegateCommand.#ctor(System.Action)">
             <summary>
             Instantiate a DelegateCommand with Execute Action.
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Command.DelegeteCommand.op_Implicit(System.Action)~SimpleMvvm.Command.DelegeteCommand">
+        <member name="M:SimpleMvvm.Command.DelegateCommand.op_Implicit(System.Action)~SimpleMvvm.Command.DelegateCommand">
             <summary>
             Wraps the delegate as a command.
             </summary>
