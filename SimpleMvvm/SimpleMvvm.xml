@@ -59,16 +59,6 @@
             Wraps the delegate as a command.
             </summary>
         </member>
-        <member name="T:SimpleMvvm.ICleanup">
-            <summary>
-            Defines a interface for classes that should clean up.
-            </summary>
-        </member>
-        <member name="M:SimpleMvvm.ICleanup.Cleanup">
-            <summary>
-            Cleans up unnecessary resources.
-            </summary>
-        </member>
         <member name="T:SimpleMvvm.NotificationObject">
             <summary>
             Notifies clients that a property value has changed.
@@ -84,19 +74,14 @@
             Occurs when a property value changes.
             </summary>
         </member>
+        <member name="M:SimpleMvvm.NotificationObject.UpdateValue``1(``0@,``0,System.String)">
+            <summary>
+            Updates field value and notifies property changed.
+            </summary>
+        </member>
         <member name="T:SimpleMvvm.ViewModelBase">
             <summary>
             Base class for ViewModels.
-            </summary>
-        </member>
-        <member name="M:SimpleMvvm.ViewModelBase.Cleanup">
-            <summary>
-            Override this method to clean up unnecessary resources.
-            </summary>
-        </member>
-        <member name="M:SimpleMvvm.ViewModelBase.SetProperty``1(``0@,``0,System.String)">
-            <summary>
-            Set property and notifies property changed.
             </summary>
         </member>
     </members>
