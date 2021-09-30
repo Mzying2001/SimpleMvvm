@@ -16,12 +16,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\code\VisualStudio\repos\SimpleMvvm\SimpleMvvm\SimpleMvvm.xml</DocumentationFile>
+    <DocumentationFile>SimpleMvvm.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>SimpleMvvm.xml</DocumentationFile>
     <NoWarn></NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
+    <NoWarn />
   </PropertyGroup>
 
 </Project>
