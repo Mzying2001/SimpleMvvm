@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SimpleMvvm</name>
+    </assembly>
+    <members>
+        <member name="T:SimpleMvvm.Command.DelegateCommand`1">
+            <summary>
+            Defines delegate command.
+            </summary>
+        </member>
+        <member name="E:SimpleMvvm.Command.DelegateCommand`1.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="P:SimpleMvvm.Command.DelegateCommand`1.CanExecute">
+            <summary>
+            Determines whether the command can execute in its current state.
+            </summary>
+        </member>
+        <member name="P:SimpleMvvm.Command.DelegateCommand`1.Execute">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand`1.#ctor">
+            <summary>
+            Instantiate a DelegateCommand.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand`1.#ctor(System.Action{`0})">
+            <summary>
+            Instantiate a DelegateCommand with Execute Action.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand`1.op_Implicit(System.Action{`0})~SimpleMvvm.Command.DelegateCommand{`0}">
+            <summary>
+            Wraps the delegate as a command.
+            </summary>
+        </member>
+        <member name="T:SimpleMvvm.Command.DelegeteCommand">
+            <summary>
+            Defines delegate command without parameter.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegeteCommand.#ctor">
+            <summary>
+            Instantiate a DelegateCommand.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegeteCommand.#ctor(System.Action)">
+            <summary>
+            Instantiate a DelegateCommand with Execute Action.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegeteCommand.op_Implicit(System.Action)~SimpleMvvm.Command.DelegeteCommand">
+            <summary>
+            Wraps the delegate as a command.
+            </summary>
+        </member>
+        <member name="T:SimpleMvvm.ICleanup">
+            <summary>
+            Defines a interface for classes that should clean up.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.ICleanup.Cleanup">
+            <summary>
+            Cleans up unnecessary resources.
+            </summary>
+        </member>
+        <member name="T:SimpleMvvm.NotificationObject">
+            <summary>
+            Notifies clients that a property value has changed.
+            </summary>
+        </member>
+        <member name="E:SimpleMvvm.NotificationObject.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.NotificationObject.RaisePropertyChanged(System.Object,System.String)">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="T:SimpleMvvm.ViewModelBase">
+            <summary>
+            Base class for ViewModels.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.ViewModelBase.Cleanup">
+            <summary>
+            Override this method to clean up unnecessary resources.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.ViewModelBase.SetProperty``1(``0@,``0,System.String)">
+            <summary>
+            Set property and notifies property changed.
+            </summary>
+        </member>
+    </members>
+</doc>
