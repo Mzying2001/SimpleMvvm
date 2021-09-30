@@ -15,7 +15,12 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Instantiate a DelegateCommand with Execute Action.
         /// </summary>
-        public DelegateCommand(Action executeAction) : base(o => executeAction()) { }
+        public DelegateCommand(Action<object> executeAction) : base(executeAction) { }
+
+        /// <summary>
+        /// Instantiate a DelegateCommand with Execute Action.
+        /// </summary>
+        public DelegateCommand(Action executeAction) : this(o => executeAction()) { }
 
         /// <summary>
         /// Wraps the delegate as a command.

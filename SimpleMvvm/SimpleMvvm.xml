@@ -49,6 +49,11 @@
             Instantiate a DelegateCommand.
             </summary>
         </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            Instantiate a DelegateCommand with Execute Action.
+            </summary>
+        </member>
         <member name="M:SimpleMvvm.Command.DelegateCommand.#ctor(System.Action)">
             <summary>
             Instantiate a DelegateCommand with Execute Action.
