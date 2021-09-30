@@ -89,5 +89,15 @@
             Base class for ViewModels.
             </summary>
         </member>
+        <member name="M:SimpleMvvm.ViewModelBase.#ctor">
+            <summary>
+            Instantiate the ViewModel and call the Init method.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.ViewModelBase.Init">
+            <summary>
+            Use this method to initialize.
+            </summary>
+        </member>
     </members>
 </doc>
