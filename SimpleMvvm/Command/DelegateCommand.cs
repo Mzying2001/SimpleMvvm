@@ -6,7 +6,7 @@ namespace SimpleMvvm.Command
     /// <summary>
     /// Defines delegate command.
     /// </summary>
-    public class DelegateCommand<ParamType> : ICommand
+    public class DelegateCommand : ICommand
     {
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute.
@@ -20,7 +20,7 @@ namespace SimpleMvvm.Command
 
         void ICommand.Execute(object parameter)
         {
-            Execute?.Invoke((ParamType)parameter);
+            Execute?.Invoke(parameter);
         }
 
         private bool _canExecute = true;
@@ -40,7 +40,7 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Defines the method to be called when the command is invoked.
         /// </summary>
-        public Action<ParamType> Execute { get; set; }
+        public virtual Action<object> Execute { get; set; }
 
         /// <summary>
         /// Instantiate a DelegateCommand.
@@ -50,17 +50,30 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Instantiate a DelegateCommand with Execute Action.
         /// </summary>
-        public DelegateCommand(Action<ParamType> executeAction)
+        public DelegateCommand(Action<object> executeAction)
         {
             Execute = executeAction;
         }
 
         /// <summary>
+        /// Instantiate a DelegateCommand with Execute Action.
+        /// </summary>
+        public DelegateCommand(Action executeAction) : this(o => executeAction()) { }
+
+        /// <summary>
         /// Wraps the delegate as a command.
         /// </summary>
-        public static implicit operator DelegateCommand<ParamType>(Action<ParamType> executeAction)
+        public static implicit operator DelegateCommand(Action<object> executeAction)
         {
-            return new DelegateCommand<ParamType>(executeAction);
+            return new DelegateCommand(executeAction);
+        }
+
+        /// <summary>
+        /// Wraps the delegate as a command.
+        /// </summary>
+        public static implicit operator DelegateCommand(Action executeAction)
+        {
+            return new DelegateCommand(executeAction);
         }
     }
 }

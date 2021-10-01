@@ -4,44 +4,24 @@
         <name>SimpleMvvm</name>
     </assembly>
     <members>
-        <member name="T:SimpleMvvm.Command.DelegateCommand`1">
+        <member name="T:SimpleMvvm.Command.DelegateCommand">
             <summary>
             Defines delegate command.
             </summary>
         </member>
-        <member name="E:SimpleMvvm.Command.DelegateCommand`1.CanExecuteChanged">
+        <member name="E:SimpleMvvm.Command.DelegateCommand.CanExecuteChanged">
             <summary>
             Occurs when changes occur that affect whether or not the command should execute.
             </summary>
         </member>
-        <member name="P:SimpleMvvm.Command.DelegateCommand`1.CanExecute">
+        <member name="P:SimpleMvvm.Command.DelegateCommand.CanExecute">
             <summary>
             Determines whether the command can execute in its current state.
             </summary>
         </member>
-        <member name="P:SimpleMvvm.Command.DelegateCommand`1.Execute">
+        <member name="P:SimpleMvvm.Command.DelegateCommand.Execute">
             <summary>
             Defines the method to be called when the command is invoked.
-            </summary>
-        </member>
-        <member name="M:SimpleMvvm.Command.DelegateCommand`1.#ctor">
-            <summary>
-            Instantiate a DelegateCommand.
-            </summary>
-        </member>
-        <member name="M:SimpleMvvm.Command.DelegateCommand`1.#ctor(System.Action{`0})">
-            <summary>
-            Instantiate a DelegateCommand with Execute Action.
-            </summary>
-        </member>
-        <member name="M:SimpleMvvm.Command.DelegateCommand`1.op_Implicit(System.Action{`0})~SimpleMvvm.Command.DelegateCommand{`0}">
-            <summary>
-            Wraps the delegate as a command.
-            </summary>
-        </member>
-        <member name="T:SimpleMvvm.Command.DelegateCommand">
-            <summary>
-            Defines delegate command without parameter.
             </summary>
         </member>
         <member name="M:SimpleMvvm.Command.DelegateCommand.#ctor">
@@ -59,7 +39,42 @@
             Instantiate a DelegateCommand with Execute Action.
             </summary>
         </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand.op_Implicit(System.Action{System.Object})~SimpleMvvm.Command.DelegateCommand">
+            <summary>
+            Wraps the delegate as a command.
+            </summary>
+        </member>
         <member name="M:SimpleMvvm.Command.DelegateCommand.op_Implicit(System.Action)~SimpleMvvm.Command.DelegateCommand">
+            <summary>
+            Wraps the delegate as a command.
+            </summary>
+        </member>
+        <member name="T:SimpleMvvm.Command.DelegateCommand`1">
+            <summary>
+            Defines delegate command without parameter.
+            </summary>
+        </member>
+        <member name="P:SimpleMvvm.Command.DelegateCommand`1.Execute">
+            <summary>
+            The method to be called when the command is invoked.
+            </summary>
+        </member>
+        <member name="P:SimpleMvvm.Command.DelegateCommand`1.ExecuteGeneric">
+            <summary>
+            Generic Execute delegate.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand`1.#ctor">
+            <summary>
+            Instantiate a generic DelegateCommand.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand`1.#ctor(System.Action{`0})">
+            <summary>
+            Instantiate a generic DelegateCommand with Execute Action.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Command.DelegateCommand`1.op_Implicit(System.Action{`0})~SimpleMvvm.Command.DelegateCommand{`0}">
             <summary>
             Wraps the delegate as a command.
             </summary>
