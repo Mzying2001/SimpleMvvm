@@ -5,7 +5,7 @@ namespace SimpleMvvm.Command
     /// <summary>
     /// Defines delegate command without parameter.
     /// </summary>
-    public class DelegateCommand<ParamType> : DelegateCommand
+    public class DelegateCommand<TParam> : DelegateCommand
     {
         /// <summary>
         /// The method to be called when the command is invoked.
@@ -15,11 +15,11 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Generic Execute delegate.
         /// </summary>
-        public Action<ParamType> ExecuteGeneric { get; set; }
+        public Action<TParam> ExecuteGeneric { get; set; }
 
         private void InvokeExecuteGeneric(object parameter)
         {
-            ExecuteGeneric?.Invoke((ParamType)parameter);
+            ExecuteGeneric?.Invoke((TParam)parameter);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Instantiate a generic DelegateCommand with Execute Action.
         /// </summary>
-        public DelegateCommand(Action<ParamType> executeAction)
+        public DelegateCommand(Action<TParam> executeAction)
         {
             ExecuteGeneric = executeAction;
         }
@@ -38,9 +38,9 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Wraps the delegate as a command.
         /// </summary>
-        public static implicit operator DelegateCommand<ParamType>(Action<ParamType> executeAction)
+        public static implicit operator DelegateCommand<TParam>(Action<TParam> executeAction)
         {
-            return new DelegateCommand<ParamType>(executeAction);
+            return new DelegateCommand<TParam>(executeAction);
         }
     }
 }
