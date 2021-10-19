@@ -86,7 +86,7 @@
         </member>
         <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Register``1">
             <summary>
-            Register a global ViewModel instance.
+            Register a ViewModel instance.
             </summary>
         </member>
         <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Unregister``1">
@@ -97,6 +97,31 @@
         <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.GetInstance``1">
             <summary>
             Get the instance of ViewModel.
+            </summary>
+        </member>
+        <member name="T:SimpleMvvm.Messenger.Messenger">
+            <summary>
+            The Messenger is a class allowing objects to exchange messages.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Messenger.Messenger.Register(System.String,System.Action{System.Object})">
+            <summary>
+            Register a delegate to receive the message.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Messenger.Messenger.Unregister(System.String,System.Action{System.Object})">
+            <summary>
+            Unregister the delegate.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Messenger.Messenger.Send(System.String,System.Object)">
+            <summary>
+            Send message.
+            </summary>
+        </member>
+        <member name="P:SimpleMvvm.Messenger.Messenger.Global">
+            <summary>
+            Global messenger object.
             </summary>
         </member>
         <member name="T:SimpleMvvm.NotificationObject">
@@ -111,7 +136,12 @@
         </member>
         <member name="M:SimpleMvvm.NotificationObject.RaisePropertyChanged(System.Object,System.String)">
             <summary>
-            Occurs when a property value changes.
+            Notify property changed.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.NotificationObject.RaisePropertyChanged(System.String)">
+            <summary>
+            Notify property changed.
             </summary>
         </member>
         <member name="M:SimpleMvvm.NotificationObject.UpdateValue``1(``0@,``0,System.String)">
