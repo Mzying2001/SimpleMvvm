@@ -14,11 +14,19 @@ namespace SimpleMvvm
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Occurs when a property value changes.
+        /// Notify property changed.
         /// </summary>
         protected void RaisePropertyChanged(object sender, string propertyName)
         {
             PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Notify property changed.
+        /// </summary>
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            RaisePropertyChanged(this, propertyName);
         }
 
         /// <summary>
