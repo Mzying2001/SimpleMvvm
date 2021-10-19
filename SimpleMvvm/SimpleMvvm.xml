@@ -99,27 +99,27 @@
             Get the instance of ViewModel.
             </summary>
         </member>
-        <member name="T:SimpleMvvm.Messenger.Messenger">
+        <member name="T:SimpleMvvm.Messaging.Messenger">
             <summary>
             The Messenger is a class allowing objects to exchange messages.
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Messenger.Messenger.Register(System.String,System.Action{System.Object})">
+        <member name="M:SimpleMvvm.Messaging.Messenger.Register(System.String,System.Action{System.Object})">
             <summary>
             Register a delegate to receive the message.
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Messenger.Messenger.Unregister(System.String,System.Action{System.Object})">
+        <member name="M:SimpleMvvm.Messaging.Messenger.Unregister(System.String,System.Action{System.Object})">
             <summary>
             Unregister the delegate.
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Messenger.Messenger.Send(System.String,System.Object)">
+        <member name="M:SimpleMvvm.Messaging.Messenger.Send(System.String,System.Object)">
             <summary>
             Send message.
             </summary>
         </member>
-        <member name="P:SimpleMvvm.Messenger.Messenger.Global">
+        <member name="P:SimpleMvvm.Messaging.Messenger.Global">
             <summary>
             Global messenger object.
             </summary>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SimpleMvvm.Messenger
+namespace SimpleMvvm.Messaging
 {
     /// <summary>
     /// The Messenger is a class allowing objects to exchange messages.
