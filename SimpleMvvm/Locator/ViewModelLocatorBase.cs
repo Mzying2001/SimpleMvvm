@@ -14,25 +14,35 @@ namespace SimpleMvvm.Locator
         /// <summary>
         /// Register a ViewModel instance.
         /// </summary>
-        protected void Register<ViewModelType>() where ViewModelType : ViewModelBase, new()
+        protected void Register<TViewModel>() where TViewModel : ViewModelBase, new()
         {
-            _dic.Add(typeof(ViewModelType), new ViewModelType());
+            _dic.Add(typeof(TViewModel), null);
         }
 
         /// <summary>
         /// Unregister the ViewModel.
         /// </summary>
-        protected void Unregister<ViewModelType>() where ViewModelType : ViewModelBase
+        protected void Unregister<TViewModel>() where TViewModel : ViewModelBase, new()
         {
-            _dic.Remove(typeof(ViewModelType));
+            _dic.Remove(typeof(TViewModel));
         }
 
         /// <summary>
         /// Get the instance of ViewModel.
         /// </summary>
-        protected ViewModelType GetInstance<ViewModelType>() where ViewModelType : ViewModelBase
+        protected TViewModel GetInstance<TViewModel>() where TViewModel : ViewModelBase, new()
         {
-            return (ViewModelType)_dic[typeof(ViewModelType)];
+            var type = typeof(TViewModel);
+            if (_dic[type] == null)
+            {
+                var vm = new TViewModel();
+                _dic[type] = vm;
+                return vm;
+            }
+            else
+            {
+                return (TViewModel)_dic[type];
+            }
         }
     }
 }
