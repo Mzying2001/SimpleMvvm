@@ -49,7 +49,7 @@ namespace SimpleMvvm.Messaging
         /// <summary>
         /// Global messenger object.
         /// </summary>
-        public static Messenger Global { get; private set; }
+        public static Messenger Global { get; }
 
         static Messenger()
         {
