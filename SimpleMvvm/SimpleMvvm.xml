@@ -174,6 +174,16 @@
             Instantiate the ViewModel and call the Init method.
             </summary>
         </member>
+        <member name="M:SimpleMvvm.ViewModelBase.SetUIThreadContext(System.Threading.SynchronizationContext)">
+            <summary>
+            Set the UI thread context.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.ViewModelBase.InvokeOnUIThread(System.Action,System.Boolean)">
+            <summary>
+            Invoke an action on the UI thread.
+            </summary>
+        </member>
         <member name="M:SimpleMvvm.ViewModelBase.Init">
             <summary>
             Use this method to initialize.
