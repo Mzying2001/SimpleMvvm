@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
-    <UseWPF>true</UseWPF>
+    <TargetFrameworks>net45;netcoreapp3.1;net6;net8</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Company>Mzying2001</Company>
     <Authors>Mzying2001</Authors>
