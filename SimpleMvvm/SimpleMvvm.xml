@@ -84,14 +84,29 @@
             Base class for ViewModelLocator
             </summary>
         </member>
-        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Register``1">
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Register``1(``0)">
             <summary>
             Register a ViewModel instance.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Register``1(System.Boolean)">
+            <summary>
+            Register a ViewModel instance with a default constructor.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Register``1(System.Func{``0},System.Boolean)">
+            <summary>
+            Register a ViewModel instance with a factory method.
             </summary>
         </member>
         <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.Unregister``1">
             <summary>
             Unregister the ViewModel.
+            </summary>
+        </member>
+        <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.GetInstance(System.Type)">
+            <summary>
+            Get the instance of ViewModel.
             </summary>
         </member>
         <member name="M:SimpleMvvm.Locator.ViewModelLocatorBase.GetInstance``1">

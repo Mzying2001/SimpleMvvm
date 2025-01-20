@@ -8,41 +8,94 @@ namespace SimpleMvvm.Locator
     /// </summary>
     public abstract class ViewModelLocatorBase
     {
-        private readonly Dictionary<Type, ViewModelBase> _dic
-            = new Dictionary<Type, ViewModelBase>();
+        private class InstanseEntry
+        {
+            public ViewModelBase Instance { get; set; }
+            public Func<ViewModelBase> Factory { get; set; }
+        }
+
+        private readonly Dictionary<Type, InstanseEntry> _viewModelRegistry
+            = new Dictionary<Type, InstanseEntry>();
 
         /// <summary>
         /// Register a ViewModel instance.
         /// </summary>
-        protected void Register<TViewModel>() where TViewModel : ViewModelBase, new()
+        public void Register<TViewModel>(TViewModel viewModel) where TViewModel : ViewModelBase
         {
-            _dic.Add(typeof(TViewModel), null);
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            var entry = new InstanseEntry
+            { Instance = viewModel };
+            _viewModelRegistry.Add(typeof(TViewModel), entry);
+        }
+
+        /// <summary>
+        /// Register a ViewModel instance with a default constructor.
+        /// </summary>
+        public void Register<TViewModel>(bool createImmediately = false) where TViewModel : ViewModelBase, new()
+        {
+            var entry = new InstanseEntry
+            { Factory = () => new TViewModel() };
+
+            if (createImmediately)
+                entry.Instance = entry.Factory();
+            _viewModelRegistry.Add(typeof(TViewModel), entry);
+        }
+
+        /// <summary>
+        /// Register a ViewModel instance with a factory method.
+        /// </summary>
+        public void Register<TViewModel>(Func<TViewModel> factory, bool createImmediately = false) where TViewModel : ViewModelBase
+        {
+            if (factory == null)
+                throw new ArgumentNullException(nameof(factory));
+
+            var entry = new InstanseEntry
+            { Factory = factory };
+
+            if (createImmediately)
+                entry.Instance = entry.Factory();
+            _viewModelRegistry.Add(typeof(TViewModel), entry);
         }
 
         /// <summary>
         /// Unregister the ViewModel.
         /// </summary>
-        protected void Unregister<TViewModel>() where TViewModel : ViewModelBase, new()
+        public void Unregister<TViewModel>() where TViewModel : ViewModelBase
         {
-            _dic.Remove(typeof(TViewModel));
+            if (!_viewModelRegistry.ContainsKey(typeof(TViewModel)))
+                throw new KeyNotFoundException();
+
+            _viewModelRegistry.Remove(typeof(TViewModel));
         }
 
         /// <summary>
         /// Get the instance of ViewModel.
         /// </summary>
-        protected TViewModel GetInstance<TViewModel>() where TViewModel : ViewModelBase, new()
+        public ViewModelBase GetInstance(Type type)
         {
-            var type = typeof(TViewModel);
-            if (_dic[type] == null)
+            if (!_viewModelRegistry.ContainsKey(type))
+                throw new KeyNotFoundException();
+
+            var entry = _viewModelRegistry[type];
+            if (entry.Instance == null && entry.Factory != null)
             {
-                var vm = new TViewModel();
-                _dic[type] = vm;
-                return vm;
+                lock (entry)
+                {
+                    if (entry.Instance == null && entry.Factory != null)
+                        entry.Instance = entry.Factory();
+                }
             }
-            else
-            {
-                return (TViewModel)_dic[type];
-            }
+            return entry.Instance;
+        }
+
+        /// <summary>
+        /// Get the instance of ViewModel.
+        /// </summary>
+        public TViewModel GetInstance<TViewModel>() where TViewModel : ViewModelBase
+        {
+            return (TViewModel)GetInstance(typeof(TViewModel));
         }
     }
 }
