@@ -8,14 +8,14 @@ namespace SimpleMvvm.Locator
     /// </summary>
     public abstract class ViewModelLocatorBase
     {
-        private class InstanseEntry
+        private class InstanceEntry
         {
             public ViewModelBase Instance { get; set; }
             public Func<ViewModelBase> Factory { get; set; }
         }
 
-        private readonly Dictionary<Type, InstanseEntry> _viewModelRegistry
-            = new Dictionary<Type, InstanseEntry>();
+        private readonly Dictionary<Type, InstanceEntry> _viewModelRegistry
+            = new Dictionary<Type, InstanceEntry>();
 
         /// <summary>
         /// Register a ViewModel instance.
@@ -25,7 +25,7 @@ namespace SimpleMvvm.Locator
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            var entry = new InstanseEntry
+            var entry = new InstanceEntry
             { Instance = viewModel };
             _viewModelRegistry.Add(typeof(TViewModel), entry);
         }
@@ -35,7 +35,7 @@ namespace SimpleMvvm.Locator
         /// </summary>
         public void Register<TViewModel>(bool createImmediately = false) where TViewModel : ViewModelBase, new()
         {
-            var entry = new InstanseEntry
+            var entry = new InstanceEntry
             { Factory = () => new TViewModel() };
 
             if (createImmediately)
@@ -51,7 +51,7 @@ namespace SimpleMvvm.Locator
             if (factory == null)
                 throw new ArgumentNullException(nameof(factory));
 
-            var entry = new InstanseEntry
+            var entry = new InstanceEntry
             { Factory = factory };
 
             if (createImmediately)
