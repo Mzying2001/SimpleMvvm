@@ -12,23 +12,17 @@
     <Copyright>Copyright (c) 2021 Mzying2001</Copyright>
     <PackageProjectUrl>https://github.com/Mzying2001/SimpleMvvm</PackageProjectUrl>
     <Version>1.0.6</Version>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SimpleMvvm.xml</DocumentationFile>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>SimpleMvvm.xml</DocumentationFile>
     <NoWarn></NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <NoWarn />
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="SimpleMvvm.xml" />
-  </ItemGroup>
 
 </Project>
