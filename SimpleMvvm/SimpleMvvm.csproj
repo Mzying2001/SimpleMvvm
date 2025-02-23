@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netcoreapp3.1;net6;net8</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45;net6;net8</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Company>Mzying2001</Company>
     <Authors>Mzying2001</Authors>
@@ -13,16 +13,6 @@
     <PackageProjectUrl>https://github.com/Mzying2001/SimpleMvvm</PackageProjectUrl>
     <Version>1.0.6</Version>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn></NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
-    <NoWarn />
   </PropertyGroup>
 
 </Project>
