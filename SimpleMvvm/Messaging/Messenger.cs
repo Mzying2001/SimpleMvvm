@@ -36,17 +36,22 @@ namespace SimpleMvvm.Messaging
                 {
                     if (list[i].Equals(action))
                     {
-                        list.RemoveAt(i);
+                        list[i] = null;
                         break;
-                    }
-                    else if (!list[i].IsAlive)
-                    {
-                        list.RemoveAt(i);
                     }
                 }
 
+                list = list.FindAll(
+                    x => x != null && x.IsAlive);
+
                 if (list.Count == 0)
+                {
                     _dic.Remove(token);
+                }
+                else
+                {
+                    _dic[token] = list;
+                }
             }
         }
 
@@ -65,8 +70,10 @@ namespace SimpleMvvm.Messaging
         {
             if (_dic.TryGetValue(token, out var list))
             {
-                foreach (var weakAction in list)
-                    weakAction.TryInvoke(message);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i]?.TryInvoke(message);
+                }
             }
         }
 
