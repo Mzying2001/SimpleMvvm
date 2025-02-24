@@ -8,22 +8,21 @@ namespace SimpleMvvm.Messaging
     /// </summary>
     public class Messenger
     {
-        private readonly Dictionary<string, List<WeakReference<Action<object>>>> _dic
-            = new Dictionary<string, List<WeakReference<Action<object>>>>();
+        private readonly Dictionary<string, List<WeakAction<object>>> _dic
+            = new Dictionary<string, List<WeakAction<object>>>();
 
         /// <summary>
         /// Register a delegate to receive the message.
         /// </summary>
         public void Register(string token, Action<object> action)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            var weakAction = new WeakAction<object>(action);
 
             if (!_dic.ContainsKey(token))
-                _dic.Add(token, new List<WeakReference<Action<object>>>());
+                _dic.Add(token, new List<WeakAction<object>>());
 
             var list = _dic[token];
-            list.Add(new WeakReference<Action<object>>(action));
+            list.Add(weakAction);
         }
 
         /// <summary>
@@ -35,14 +34,14 @@ namespace SimpleMvvm.Messaging
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
-                    if (!list[i].TryGetTarget(out var target))
-                    {
-                        list.RemoveAt(i);
-                    }
-                    else if (target == action)
+                    if (list[i].Equals(action))
                     {
                         list.RemoveAt(i);
                         break;
+                    }
+                    else if (!list[i].IsAlive)
+                    {
+                        list.RemoveAt(i);
                     }
                 }
 
@@ -67,12 +66,7 @@ namespace SimpleMvvm.Messaging
             if (_dic.TryGetValue(token, out var list))
             {
                 foreach (var weakAction in list)
-                {
-                    if (weakAction.TryGetTarget(out var action))
-                    {
-                        action(message);
-                    }
-                }
+                    weakAction.TryInvoke(message);
             }
         }
 
@@ -81,11 +75,6 @@ namespace SimpleMvvm.Messaging
         /// <summary>
         /// Global messenger object.
         /// </summary>
-        public static Messenger Global { get; }
-
-        static Messenger()
-        {
-            Global = new Messenger();
-        }
+        public static Messenger Global { get; } = new Messenger();
     }
 }
