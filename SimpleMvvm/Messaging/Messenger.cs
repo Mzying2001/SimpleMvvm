@@ -34,7 +34,7 @@ namespace SimpleMvvm.Messaging
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
-                    if (list[i].Equals(action))
+                    if (list[i] != null && list[i].Equals(action))
                     {
                         list[i] = null;
                         break;
