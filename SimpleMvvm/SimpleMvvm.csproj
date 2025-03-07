@@ -1,18 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net6;net8</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <TargetFrameworks>netstandard2.0;net45;net6.0-windows;net8.0-windows</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Company>Mzying2001</Company>
     <Authors>Mzying2001</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Mzying2001.SimpleMvvm</PackageId>
     <Description>A simple MVVM class library for WPF apps.</Description>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Copyright (c) 2021 Mzying2001</Copyright>
-    <PackageProjectUrl>https://github.com/Mzying2001/SimpleMvvm</PackageProjectUrl>
     <Version>1.0.9</Version>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RepositoryUrl>https://github.com/Mzying2001/SimpleMvvm.git</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
