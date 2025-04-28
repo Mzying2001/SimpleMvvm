@@ -3,13 +3,11 @@
 namespace SimpleMvvm.Command
 {
     /// <summary>
-    /// Defines delegate command without parameter.
+    /// Defines delegate command with generic parameter.
     /// </summary>
     public class DelegateCommand<TParam> : DelegateCommand
     {
-        /// <summary>
-        /// The method to be called when the command is invoked.
-        /// </summary>
+        /// <inheritdoc/>
         public override Action<object> Execute => InvokeExecuteGeneric;
 
         /// <summary>
