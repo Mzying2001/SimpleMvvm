@@ -9,7 +9,7 @@
     <PackageId>Mzying2001.SimpleMvvm</PackageId>
     <Description>A simple MVVM class library for WPF apps.</Description>
     <Copyright>Copyright (c) 2021 Mzying2001</Copyright>
-    <Version>1.0.9</Version>
+    <Version>1.1.0</Version>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/Mzying2001/SimpleMvvm.git</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
