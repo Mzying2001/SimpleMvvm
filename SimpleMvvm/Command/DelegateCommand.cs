@@ -79,7 +79,7 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Instantiate a DelegateCommand with Execute Action.
         /// </summary>
-        public DelegateCommand(Action executeAction) : this(o => executeAction())
+        public DelegateCommand(Action executeAction) : this(_ => executeAction())
         {
         }
     }
