@@ -6,6 +6,7 @@ namespace SimpleMvvm.Locator
     /// <summary>
     /// Base class for ViewModelLocator
     /// </summary>
+    [Obsolete("Use Ioc.SimpleIoc instead.", false)]
     public abstract class ViewModelLocatorBase
     {
         private class InstanceEntry
