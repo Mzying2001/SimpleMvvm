@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace SimpleMvvm
@@ -32,15 +33,21 @@ namespace SimpleMvvm
         /// <summary>
         /// Updates field value and notifies property changed.
         /// </summary>
+        protected void UpdateValue<T>(ref T field, T value, bool forceUpdate, [CallerMemberName] string propertyName = null)
+        {
+            if (forceUpdate || !EqualityComparer<object>.Default.Equals(field, value))
+            {
+                field = value;
+                RaisePropertyChanged(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Updates field value and notifies property changed.
+        /// </summary>
         protected void UpdateValue<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
-            //if ((field == null && value == null) ||
-            //    (field != null && field.Equals(value)) ||
-            //    (value != null && value.Equals(value)))
-            //    return;
-
-            field = value;
-            RaisePropertyChanged(this, propertyName);
+            UpdateValue(ref field, value, false, propertyName);
         }
     }
 }
