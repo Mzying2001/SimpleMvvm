@@ -45,7 +45,9 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Instantiate a DelegateCommand.
         /// </summary>
-        public DelegateCommand() { }
+        public DelegateCommand()
+        {
+        }
 
         /// <summary>
         /// Instantiate a DelegateCommand with Execute Action.
@@ -58,22 +60,8 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Instantiate a DelegateCommand with Execute Action.
         /// </summary>
-        public DelegateCommand(Action executeAction) : this(o => executeAction()) { }
-
-        /// <summary>
-        /// Wraps the delegate as a command.
-        /// </summary>
-        public static implicit operator DelegateCommand(Action<object> executeAction)
+        public DelegateCommand(Action executeAction) : this(o => executeAction())
         {
-            return new DelegateCommand(executeAction);
-        }
-
-        /// <summary>
-        /// Wraps the delegate as a command.
-        /// </summary>
-        public static implicit operator DelegateCommand(Action executeAction)
-        {
-            return new DelegateCommand(executeAction);
         }
     }
 }
