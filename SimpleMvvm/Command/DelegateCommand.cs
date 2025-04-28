@@ -8,16 +8,16 @@ namespace SimpleMvvm.Command
     /// </summary>
     public class DelegateCommand : ICommand
     {
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute.
-        /// </summary>
+        /// <inheritdoc/>
         public event EventHandler CanExecuteChanged;
 
+        /// <inheritdoc/>
         bool ICommand.CanExecute(object parameter)
         {
-            return CanExecute;
+            return GetCanExecute();
         }
 
+        /// <inheritdoc/>
         void ICommand.Execute(object parameter)
         {
             Execute?.Invoke(parameter);
@@ -32,9 +32,28 @@ namespace SimpleMvvm.Command
             get => _canExecute;
             set
             {
-                _canExecute = value;
-                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+                if (_canExecute != value)
+                {
+                    _canExecute = value;
+                    RaiseCanExecuteChanged();
+                }
             }
+        }
+
+        /// <summary>
+        /// Gets the value of CanExecute.
+        /// </summary>
+        protected virtual bool GetCanExecute()
+        {
+            return CanExecute;
+        }
+
+        /// <summary>
+        /// Raises the CanExecuteChanged event.
+        /// </summary>
+        protected void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
