@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace SimpleMvvm.Messaging
@@ -8,21 +9,20 @@ namespace SimpleMvvm.Messaging
     /// </summary>
     public class Messenger
     {
-        private readonly Dictionary<string, List<WeakAction<object>>> _dic
-            = new Dictionary<string, List<WeakAction<object>>>();
+        private readonly ConcurrentDictionary<string, List<WeakAction<object>>>
+            _dic = new ConcurrentDictionary<string, List<WeakAction<object>>>();
 
         /// <summary>
         /// Register a delegate to receive the message.
         /// </summary>
         public void Register(string token, Action<object> action)
         {
-            var weakAction = new WeakAction<object>(action);
+            var list = _dic.GetOrAdd(token, _ => new List<WeakAction<object>>());
 
-            if (!_dic.ContainsKey(token))
-                _dic.Add(token, new List<WeakAction<object>>());
-
-            var list = _dic[token];
-            list.Add(weakAction);
+            lock (list)
+            {
+                list.Add(new WeakAction<object>(action));
+            }
         }
 
         /// <summary>
@@ -32,25 +32,18 @@ namespace SimpleMvvm.Messaging
         {
             if (_dic.TryGetValue(token, out var list))
             {
-                for (int i = list.Count - 1; i >= 0; i--)
+                lock (list)
                 {
-                    if (list[i] != null && list[i].Equals(action))
+                    for (int i = list.Count - 1; i >= 0; i--)
                     {
-                        list[i] = null;
-                        break;
+                        if (list[i] != null && list[i].Equals(action))
+                        {
+                            list[i] = null;
+                            break;
+                        }
                     }
-                }
 
-                list = list.FindAll(
-                    x => x != null && x.IsAlive);
-
-                if (list.Count == 0)
-                {
-                    _dic.Remove(token);
-                }
-                else
-                {
-                    _dic[token] = list;
+                    list.RemoveAll(x => x == null || !x.IsAlive);
                 }
             }
         }
@@ -60,7 +53,7 @@ namespace SimpleMvvm.Messaging
         /// </summary>
         public void UnregisterAll(string token)
         {
-            _dic.Remove(token);
+            _dic.TryRemove(token, out _);
         }
 
         /// <summary>
@@ -70,9 +63,16 @@ namespace SimpleMvvm.Messaging
         {
             if (_dic.TryGetValue(token, out var list))
             {
-                for (int i = 0; i < list.Count; i++)
+                WeakAction<object>[] actions;
+
+                lock (list)
                 {
-                    list[i]?.TryInvoke(message);
+                    actions = list.ToArray();
+                }
+
+                foreach (var item in actions)
+                {
+                    item?.TryInvoke(message);
                 }
             }
         }
