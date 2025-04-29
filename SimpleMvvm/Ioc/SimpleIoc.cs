@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace SimpleMvvm.Ioc
@@ -27,8 +28,8 @@ namespace SimpleMvvm.Ioc
             }
         }
 
-        private readonly Dictionary<Type, InstanceEntry>
-            _instanceRegistry = new Dictionary<Type, InstanceEntry>();
+        private readonly ConcurrentDictionary<Type, InstanceEntry>
+            _instanceRegistry = new ConcurrentDictionary<Type, InstanceEntry>();
 
         /// <summary>
         /// Checks if the type is registered in the IoC container.
@@ -36,11 +37,7 @@ namespace SimpleMvvm.Ioc
         public bool IsRegistered(Type type)
         {
             ThrowIfArgumentNull(type, nameof(type));
-
-            lock (_instanceRegistry)
-            {
-                return IsRegisteredImpl(type);
-            }
+            return _instanceRegistry.ContainsKey(type);
         }
 
         /// <summary>
@@ -52,14 +49,6 @@ namespace SimpleMvvm.Ioc
         }
 
         /// <summary>
-        /// Implementation of the IsRegistered method.
-        /// </summary>
-        private bool IsRegisteredImpl(Type type)
-        {
-            return _instanceRegistry.ContainsKey(type);
-        }
-
-        /// <summary>
         /// Registers an instance to the IoC container.
         /// </summary>
         /// <returns>True if the instance was registered, false if it was already registered.</returns>
@@ -68,15 +57,8 @@ namespace SimpleMvvm.Ioc
             Type type = typeof(T);
             ThrowIfArgumentNull(instance, nameof(instance));
 
-            lock (_instanceRegistry)
-            {
-                if (IsRegisteredImpl(type))
-                    return false;
-
-                _instanceRegistry.Add(type, new InstanceEntry
-                { Lifetime = Lifetime.Singleton, Instance = instance });
-                return true;
-            }
+            return _instanceRegistry.TryAdd(type, new InstanceEntry
+            { Lifetime = Lifetime.Singleton, Instance = instance });
         }
 
         /// <summary>
@@ -115,16 +97,14 @@ namespace SimpleMvvm.Ioc
             Type type = typeof(T);
             ThrowIfArgumentNull(factory, nameof(factory));
 
-            lock (_instanceRegistry)
+            var entry = new InstanceEntry
+            { Lifetime = lifetime, Factory = _ => factory() };
+
+            if (!_instanceRegistry.TryAdd(type, entry))
+                return false;
+
+            lock (entry)
             {
-                if (IsRegisteredImpl(type))
-                    return false;
-
-                var entry = new InstanceEntry
-                { Lifetime = lifetime, Factory = _ => factory() };
-
-                _instanceRegistry.Add(type, entry);
-
                 if (createImmediately)
                     entry.Get();
                 return true;
@@ -140,17 +120,8 @@ namespace SimpleMvvm.Ioc
             Type type = typeof(T);
             ThrowIfArgumentNull(factory, nameof(factory));
 
-            lock (_instanceRegistry)
-            {
-                if (IsRegisteredImpl(type))
-                    return false;
-
-                var entry = new InstanceEntry
-                { Lifetime = lifetime, Factory = args => factory(args) };
-
-                _instanceRegistry.Add(type, entry);
-                return true;
-            }
+            return _instanceRegistry.TryAdd(type, new InstanceEntry
+            { Lifetime = lifetime, Factory = args => factory(args) });
         }
 
         /// <summary>
@@ -160,10 +131,14 @@ namespace SimpleMvvm.Ioc
         {
             ThrowIfArgumentNull(type, nameof(type));
 
-            lock (_instanceRegistry)
+            if (_instanceRegistry.TryRemove(type, out InstanceEntry entry))
             {
-                return _instanceRegistry.Remove(type);
+                if (entry.Instance is IDisposable disposable)
+                    disposable.Dispose();
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -182,19 +157,28 @@ namespace SimpleMvvm.Ioc
         public object GetInstance(Type type, params object[] args)
         {
             ThrowIfArgumentNull(type, nameof(type));
+            InstanceEntry entry = null;
 
-            lock (_instanceRegistry)
+            if (!_instanceRegistry.TryGetValue(type, out entry))
             {
-                if (IsRegisteredImpl(type))
-                    return _instanceRegistry[type].Get(args);
-
                 foreach (var pair in _instanceRegistry)
                 {
                     if (type.IsAssignableFrom(pair.Key))
-                        return pair.Value.Get(args);
+                    {
+                        entry = pair.Value;
+                        break;
+                    }
                 }
+            }
 
+            if (entry == null)
                 throw new KeyNotFoundException($"Unable to resolve type {type}.");
+            else
+            {
+                lock (entry)
+                {
+                    return entry.Get(args);
+                }
             }
         }
 
