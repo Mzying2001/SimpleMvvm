@@ -127,13 +127,13 @@ namespace SimpleMvvm.Ioc
         /// <summary>
         /// Unregisters a type from the IoC container.
         /// </summary>
-        public bool Unregister(Type type)
+        public bool Unregister(Type type, bool disposeInstance = true)
         {
             ThrowIfArgumentNull(type, nameof(type));
 
             if (_instanceRegistry.TryRemove(type, out InstanceEntry entry))
             {
-                if (entry.Instance is IDisposable disposable)
+                if (disposeInstance && entry.Instance is IDisposable disposable)
                     disposable.Dispose();
                 return true;
             }
@@ -144,9 +144,9 @@ namespace SimpleMvvm.Ioc
         /// <summary>
         /// Unregisters a type from the IoC container.
         /// </summary>
-        public bool Unregister<T>()
+        public bool Unregister<T>(bool disposeInstance = true)
         {
-            return Unregister(typeof(T));
+            return Unregister(typeof(T), disposeInstance);
         }
 
         /// <summary>
