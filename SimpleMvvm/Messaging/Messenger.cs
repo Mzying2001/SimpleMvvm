@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SimpleMvvm.Messaging
 {
@@ -75,6 +76,14 @@ namespace SimpleMvvm.Messaging
                     item?.TryInvoke(message);
                 }
             }
+        }
+
+        /// <summary>
+        /// Send message asynchronously.
+        /// </summary>
+        public async Task SendAsync(string token, object message)
+        {
+            await Task.Run(() => Send(token, message));
         }
 
 
