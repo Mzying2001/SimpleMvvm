@@ -35,7 +35,7 @@ namespace SimpleMvvm
         /// </summary>
         protected void UpdateValue<T>(ref T field, T value, bool forceUpdate, [CallerMemberName] string propertyName = null)
         {
-            if (forceUpdate || !EqualityComparer<object>.Default.Equals(field, value))
+            if (forceUpdate || !EqualityComparer<T>.Default.Equals(field, value))
             {
                 field = value;
                 RaisePropertyChanged(propertyName);
