@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleMvvm.Command
@@ -9,7 +10,7 @@ namespace SimpleMvvm.Command
     public class AsyncDelegateCommand : DelegateCommand
     {
         private bool _isExecuting = false;
-        private object _lock = new object();
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
         /// <inheritdoc/>
         public override Action<object> Execute => InvokeExecuteAsync;
@@ -24,35 +25,22 @@ namespace SimpleMvvm.Command
         /// </summary>
         private async void InvokeExecuteAsync(object parameter)
         {
+            await _semaphore.WaitAsync();
+
             try
             {
-                lock (_lock)
-                {
-                    if (_isExecuting)
-                        throw new InvalidOperationException("Command is executing.");
-
-                    _isExecuting = true;
-                    RaiseCanExecuteChanged();
-                }
+                _isExecuting = true;
+                RaiseCanExecuteChanged();
 
                 var executeAsync = ExecuteAsync;
                 if (executeAsync != null)
                     await executeAsync(parameter);
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
-                lock (_lock)
-                {
-                    if (_isExecuting)
-                    {
-                        _isExecuting = false;
-                        RaiseCanExecuteChanged();
-                    }
-                }
+                _isExecuting = false;
+                _semaphore.Release();
+                RaiseCanExecuteChanged();
             }
         }
 
