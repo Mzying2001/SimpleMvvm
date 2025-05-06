@@ -15,6 +15,8 @@ namespace SimpleMvvm.Ioc
             public object Instance { get; set; }
             public Func<object[], object> Factory { get; set; }
 
+            private readonly object _lock = new object();
+
             public object Get(params object[] args)
             {
                 if (Lifetime == Lifetime.Transient)
@@ -22,7 +24,13 @@ namespace SimpleMvvm.Ioc
                 else
                 {
                     if (Instance == null)
-                        Instance = Factory(args);
+                    {
+                        lock (_lock)
+                        {
+                            if (Instance == null)
+                                Instance = Factory(args);
+                        }
+                    }
                     return Instance;
                 }
             }
@@ -103,12 +111,10 @@ namespace SimpleMvvm.Ioc
             if (!_instanceRegistry.TryAdd(type, entry))
                 return false;
 
-            lock (entry)
-            {
-                if (createImmediately)
-                    entry.Get();
-                return true;
-            }
+            if (createImmediately)
+                entry.Get();
+
+            return true;
         }
 
         /// <summary>
@@ -173,13 +179,8 @@ namespace SimpleMvvm.Ioc
 
             if (entry == null)
                 throw new KeyNotFoundException($"Unable to resolve type {type}.");
-            else
-            {
-                lock (entry)
-                {
-                    return entry.Get(args);
-                }
-            }
+
+            return entry.Get(args);
         }
 
         /// <summary>
