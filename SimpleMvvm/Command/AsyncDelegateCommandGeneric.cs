@@ -39,7 +39,6 @@ namespace SimpleMvvm.Command
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncDelegateCommand{TParam}"/> class with the specified execute action.
         /// </summary>
-        /// <param name="executeAsync"></param>
         public AsyncDelegateCommand(Func<TParam, Task> executeAsync)
         {
             ExecuteAsyncGeneric = executeAsync;
