@@ -33,21 +33,25 @@ namespace SimpleMvvm
         /// <summary>
         /// Updates field value and notifies property changed.
         /// </summary>
-        protected void UpdateValue<T>(ref T field, T value, bool forceUpdate, [CallerMemberName] string propertyName = null)
+        /// <returns>True if the value was updated, false otherwise.</returns>
+        protected bool UpdateValue<T>(ref T field, T value, bool forceUpdate, [CallerMemberName] string propertyName = "")
         {
             if (forceUpdate || !EqualityComparer<T>.Default.Equals(field, value))
             {
                 field = value;
                 RaisePropertyChanged(propertyName);
+                return true;
             }
+            return false;
         }
 
         /// <summary>
         /// Updates field value and notifies property changed.
         /// </summary>
-        protected void UpdateValue<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        /// <returns>True if the value was updated, false otherwise.</returns>
+        protected bool UpdateValue<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
-            UpdateValue(ref field, value, false, propertyName);
+            return UpdateValue(ref field, value, false, propertyName);
         }
     }
 }
