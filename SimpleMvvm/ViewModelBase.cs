@@ -30,6 +30,14 @@ namespace SimpleMvvm
         }
 
         /// <summary>
+        /// Get the UI thread context.
+        /// </summary>
+        protected SynchronizationContext GetUIThreadContext()
+        {
+            return _syncContext;
+        }
+
+        /// <summary>
         /// Invoke an action on the UI thread.
         /// </summary>
         protected void InvokeOnUIThread(Action action)
@@ -46,8 +54,10 @@ namespace SimpleMvvm
         }
 
         /// <summary>
-        /// Use this method to initialize.
+        /// Override this method to initialize the ViewModel.
         /// </summary>
-        protected virtual void Init() { }
+        protected virtual void Init()
+        {
+        }
     }
 }
