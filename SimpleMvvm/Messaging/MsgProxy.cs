@@ -52,19 +52,19 @@ namespace SimpleMvvm.Messaging
         /// Casts the given object to the specified type.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
-        private T Cast<T>(object obj)
+        private static T Cast<T>(object obj)
         {
             if (obj is T t)
             {
                 return t;
             }
-            else if (obj == null && typeof(T).IsValueType)
+            else if (obj == null)
             {
                 return default;
             }
             else
             {
-                throw new InvalidCastException($"Cannot cast {Result?.GetType().Name ?? "null"} to {typeof(T).Name}.");
+                throw new InvalidCastException($"Cannot cast {obj.GetType().Name} to {typeof(T).Name}.");
             }
         }
     }
