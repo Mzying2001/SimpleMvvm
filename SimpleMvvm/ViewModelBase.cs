@@ -32,10 +32,17 @@ namespace SimpleMvvm
         /// <summary>
         /// Invoke an action on the UI thread.
         /// </summary>
-        protected void InvokeOnUIThread(Action action, bool post = false)
+        protected void InvokeOnUIThread(Action action)
         {
-            if (post) _syncContext.Post(_ => action(), null);
-            else _syncContext.Send(_ => action(), null);
+            _syncContext.Send(_ => action(), null);
+        }
+
+        /// <summary>
+        /// Invoke an action on the UI thread asynchronously.
+        /// </summary>
+        protected void InvokeOnUIThreadAsync(Action action)
+        {
+            _syncContext.Post(_ => action(), null);
         }
 
         /// <summary>
