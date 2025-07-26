@@ -14,7 +14,7 @@ namespace SimpleMvvm.Command
         /// <inheritdoc/>
         bool ICommand.CanExecute(object parameter)
         {
-            return GetCanExecute();
+            return GetCanExecute(parameter);
         }
 
         /// <inheritdoc/>
@@ -26,6 +26,7 @@ namespace SimpleMvvm.Command
         private bool _canExecute = true;
         /// <summary>
         /// Determines whether the command can execute in its current state.
+        /// This property has a higher priority than the <see cref="CanExecuteFunc"/> delegate.
         /// </summary>
         public bool CanExecute
         {
@@ -41,17 +42,29 @@ namespace SimpleMvvm.Command
         }
 
         /// <summary>
-        /// Gets the value of CanExecute.
+        /// Delegate to determine whether the command can execute. 
         /// </summary>
-        protected virtual bool GetCanExecute()
+        public Func<object, bool> CanExecuteFunc { get; set; }
+
+        /// <summary>
+        /// Gets the value that indicates whether the command can execute in its current state.
+        /// </summary>
+        protected virtual bool GetCanExecute(object parameter)
         {
-            return CanExecute;
+            if (CanExecuteFunc == null)
+            {
+                return CanExecute;
+            }
+            else
+            {
+                return CanExecute && CanExecuteFunc(parameter);
+            }
         }
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
         /// </summary>
-        protected void RaiseCanExecuteChanged()
+        public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }

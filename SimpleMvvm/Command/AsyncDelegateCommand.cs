@@ -45,9 +45,9 @@ namespace SimpleMvvm.Command
         }
 
         /// <inheritdoc/>
-        protected override bool GetCanExecute()
+        protected override bool GetCanExecute(object prarmeter)
         {
-            return !_isExecuting && base.GetCanExecute();
+            return !_isExecuting && base.GetCanExecute(prarmeter);
         }
 
         /// <summary>
