@@ -16,13 +16,16 @@ namespace SimpleMvvm.Messaging
         /// <summary>
         /// Register a delegate to receive the message.
         /// </summary>
-        public void Register(string token, Action<object> action)
+        public void Register(string token, Action<object> action, bool keepAlive = false)
         {
             var list = _dic.GetOrAdd(token, _ => new List<WeakAction<object>>());
 
             lock (list)
             {
-                list.Add(new WeakAction<object>(action));
+                list.Add(new WeakAction<object>(action)
+                {
+                    KeepAliveRef = keepAlive ? action : null
+                });
             }
         }
 
