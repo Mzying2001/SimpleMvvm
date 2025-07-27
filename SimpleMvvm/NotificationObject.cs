@@ -25,7 +25,7 @@ namespace SimpleMvvm
         /// <summary>
         /// Notify property changed.
         /// </summary>
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
             RaisePropertyChanged(this, propertyName);
         }
