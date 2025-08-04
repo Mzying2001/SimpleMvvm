@@ -1,29 +1,13 @@
 ﻿using System;
 using System.Threading;
-using System.Windows.Input;
 
 namespace SimpleMvvm.Command
 {
     /// <summary>
     /// Defines delegate command.
     /// </summary>
-    public class DelegateCommand : ICommand
+    public class DelegateCommand : AbstractCommand
     {
-        /// <inheritdoc/>
-        public event EventHandler CanExecuteChanged;
-
-        /// <inheritdoc/>
-        bool ICommand.CanExecute(object parameter)
-        {
-            return GetCanExecute(parameter);
-        }
-
-        /// <inheritdoc/>
-        void ICommand.Execute(object parameter)
-        {
-            Execute?.Invoke(parameter);
-        }
-
         private int _canExecuteFlag = 1;
         /// <summary>
         /// Determines whether the command can execute in its current state.
@@ -44,22 +28,6 @@ namespace SimpleMvvm.Command
         /// Delegate to determine whether the command can execute. 
         /// </summary>
         public Func<object, bool> CanExecuteFunc { get; set; }
-
-        /// <summary>
-        /// Gets the value that indicates whether the command can execute in its current state.
-        /// </summary>
-        protected virtual bool GetCanExecute(object parameter)
-        {
-            return CanExecute && (CanExecuteFunc?.Invoke(parameter) ?? true);
-        }
-
-        /// <summary>
-        /// Raises the CanExecuteChanged event.
-        /// </summary>
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
 
         /// <summary>
         /// Defines the method to be called when the command is invoked.
@@ -86,6 +54,18 @@ namespace SimpleMvvm.Command
         /// </summary>
         public DelegateCommand(Action executeAction) : this(_ => executeAction())
         {
+        }
+
+        /// <inheritdoc/>
+        protected override bool GetCanExecute(object parameter)
+        {
+            return CanExecute && (CanExecuteFunc?.Invoke(parameter) ?? true);
+        }
+
+        /// <inheritdoc/>
+        protected override void InvokeExecute(object parameter)
+        {
+            Execute?.Invoke(parameter);
         }
     }
 }
