@@ -2,23 +2,30 @@
 
   <PropertyGroup>
     <UseWPF>true</UseWPF>
+    <Version>1.1.4</Version>
     <TargetFrameworks>netstandard2.0;net45;net6.0-windows;net8.0-windows</TargetFrameworks>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Authors>Mzying2001</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Mzying2001.SimpleMvvm</PackageId>
     <Description>A simple MVVM class library for WPF apps.</Description>
     <Copyright>Copyright (c) 2021 Mzying2001</Copyright>
-    <Version>1.1.4</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <RepositoryUrl>https://github.com/Mzying2001/SimpleMvvm.git</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Mzying2001/SimpleMvvm.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>WPF</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
+    <None Include="../README.md">
       <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
+      <PackagePath>/</PackagePath>
     </None>
   </ItemGroup>
 

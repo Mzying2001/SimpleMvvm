@@ -1,5 +1,14 @@
 ﻿using System;
+
+#if WPF || MAUI
 using System.Windows.Input;
+#elif UWP
+using Windows.UI.Xaml.Input;
+#elif WINUI
+using Microsoft.UI.Xaml.Input;
+#else
+#error Unsupported platform. Please define WPF, MAUI, UWP, or WINUI.
+#endif
 
 namespace SimpleMvvm.Command
 {
