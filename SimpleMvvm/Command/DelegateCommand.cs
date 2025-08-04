@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Input;
 
 namespace SimpleMvvm.Command
@@ -23,21 +24,19 @@ namespace SimpleMvvm.Command
             Execute?.Invoke(parameter);
         }
 
-        private bool _canExecute = true;
+        private int _canExecuteFlag = 1;
         /// <summary>
         /// Determines whether the command can execute in its current state.
         /// This property has a higher priority than the <see cref="CanExecuteFunc"/> delegate.
         /// </summary>
         public bool CanExecute
         {
-            get => _canExecute;
+            get => _canExecuteFlag != 0;
             set
             {
-                if (_canExecute != value)
-                {
-                    _canExecute = value;
-                    RaiseCanExecuteChanged();
-                }
+                int newval = value ? 1 : 0;
+                int orival = Interlocked.Exchange(ref _canExecuteFlag, newval);
+                if (orival != newval) RaiseCanExecuteChanged();
             }
         }
 
@@ -51,14 +50,7 @@ namespace SimpleMvvm.Command
         /// </summary>
         protected virtual bool GetCanExecute(object parameter)
         {
-            if (CanExecuteFunc == null)
-            {
-                return CanExecute;
-            }
-            else
-            {
-                return CanExecute && CanExecuteFunc(parameter);
-            }
+            return CanExecute && (CanExecuteFunc?.Invoke(parameter) ?? true);
         }
 
         /// <summary>
