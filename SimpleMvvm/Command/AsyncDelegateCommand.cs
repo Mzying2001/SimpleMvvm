@@ -9,7 +9,7 @@ namespace SimpleMvvm.Command
     /// </summary>
     public class AsyncDelegateCommand : DelegateCommand
     {
-        private bool _isExecuting = false;
+        private volatile bool _isExecuting = false;
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
         /// <inheritdoc/>
@@ -45,9 +45,9 @@ namespace SimpleMvvm.Command
         }
 
         /// <inheritdoc/>
-        protected override bool GetCanExecute(object prarmeter)
+        protected override bool GetCanExecute(object parameter)
         {
-            return !_isExecuting && base.GetCanExecute(prarmeter);
+            return !_isExecuting && base.GetCanExecute(parameter);
         }
 
         /// <summary>
