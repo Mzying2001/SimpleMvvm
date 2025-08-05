@@ -16,7 +16,7 @@ namespace SimpleMvvm.Messaging
         /// <summary>
         /// Register a delegate to receive the message.
         /// </summary>
-        public void Register(string token, Action<object> action, bool keepAlive = false)
+        public bool Register(string token, Action<object> action, bool keepAlive = false)
         {
             var list = _dic.GetOrAdd(token, _ => new List<WeakAction<object>>());
 
@@ -27,13 +27,17 @@ namespace SimpleMvvm.Messaging
                     KeepAliveRef = keepAlive ? action : null
                 });
             }
+
+            return true;
         }
 
         /// <summary>
         /// Unregister the delegate.
         /// </summary>
-        public void Unregister(string token, Action<object> action)
+        public bool Unregister(string token, Action<object> action)
         {
+            bool result = false;
+
             if (_dic.TryGetValue(token, out var list))
             {
                 lock (list)
@@ -43,6 +47,7 @@ namespace SimpleMvvm.Messaging
                         if (list[i] != null && list[i].Equals(action))
                         {
                             list[i] = null;
+                            result = true;
                             break;
                         }
                     }
@@ -50,14 +55,16 @@ namespace SimpleMvvm.Messaging
                     list.RemoveAll(x => x == null || !x.IsAlive);
                 }
             }
+
+            return result;
         }
 
         /// <summary>
         /// Unregister all delegates.
         /// </summary>
-        public void UnregisterAll(string token)
+        public bool UnregisterAll(string token)
         {
-            _dic.TryRemove(token, out _);
+            return _dic.TryRemove(token, out _);
         }
 
         /// <summary>
