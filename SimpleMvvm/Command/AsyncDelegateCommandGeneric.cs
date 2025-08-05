@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleMvvm.Internal;
+using System;
 using System.Threading.Tasks;
 
 namespace SimpleMvvm.Command
@@ -24,7 +25,7 @@ namespace SimpleMvvm.Command
             var executeAsync = ExecuteAsyncGeneric;
             if (executeAsync != null)
             {
-                var param = (TParam)parameter;
+                var param = TypeHelper.Cast<TParam>(parameter);
                 await executeAsync(param);
             }
         }

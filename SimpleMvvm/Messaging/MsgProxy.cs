@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleMvvm.Internal;
+using System;
 
 namespace SimpleMvvm.Messaging
 {
@@ -28,7 +29,7 @@ namespace SimpleMvvm.Messaging
         /// <exception cref="InvalidCastException"></exception>
         public T GetResult<T>()
         {
-            return Cast<T>(Result);
+            return TypeHelper.Cast<T>(Result);
         }
 
         /// <summary>
@@ -40,31 +41,11 @@ namespace SimpleMvvm.Messaging
         {
             if (Args != null && index >= 0 && index < Args.Length)
             {
-                return Cast<T>(Args[index]);
+                return TypeHelper.Cast<T>(Args[index]);
             }
             else
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range of the arguments array.");
-            }
-        }
-
-        /// <summary>
-        /// Casts the given object to the specified type.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        private static T Cast<T>(object obj)
-        {
-            if (obj is T t)
-            {
-                return t;
-            }
-            else if (obj == null)
-            {
-                return default;
-            }
-            else
-            {
-                throw new InvalidCastException($"Cannot cast {obj.GetType().Name} to {typeof(T).Name}.");
             }
         }
     }

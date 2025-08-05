@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleMvvm.Internal;
+using System;
 
 namespace SimpleMvvm.Command
 {
@@ -20,7 +21,7 @@ namespace SimpleMvvm.Command
         /// </summary>
         private void InvokeExecuteGeneric(object parameter)
         {
-            ExecuteGeneric?.Invoke((TParam)parameter);
+            ExecuteGeneric?.Invoke(TypeHelper.Cast<TParam>(parameter));
         }
 
         /// <summary>
