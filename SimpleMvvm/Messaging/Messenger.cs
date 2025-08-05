@@ -52,7 +52,7 @@ namespace SimpleMvvm.Messaging
                         }
                     }
 
-                    list.RemoveAll(x => x == null || !x.IsAlive);
+                    Cleanup(list);
                 }
             }
 
@@ -65,6 +65,30 @@ namespace SimpleMvvm.Messaging
         public bool UnregisterAll(string token)
         {
             return _dic.TryRemove(token, out _);
+        }
+
+        /// <summary>
+        /// Cleanup null or dead delegates for the specified list.
+        /// </summary>
+        private static int Cleanup(List<WeakAction<object>> list)
+        {
+            return list.RemoveAll(x => x == null || !x.IsAlive);
+        }
+
+        /// <summary>
+        /// Cleanup null or dead delegates for the specified token.
+        /// </summary>
+        public int Cleanup(string token)
+        {
+            if (_dic.TryGetValue(token, out var list))
+            {
+                lock (list)
+                {
+                    return Cleanup(list);
+                }
+            }
+
+            return 0;
         }
 
         /// <summary>
