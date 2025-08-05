@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleMvvm.Messaging
@@ -89,6 +90,24 @@ namespace SimpleMvvm.Messaging
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// Cleanup null or dead delegates for all tokens.
+        /// </summary>
+        public int CleanupAll()
+        {
+            int total = 0;
+
+            foreach (var list in _dic.Values.ToArray())
+            {
+                lock (list)
+                {
+                    total += Cleanup(list);
+                }
+            }
+
+            return total;
         }
 
         /// <summary>
